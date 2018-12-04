@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import Counter from "./Counter";
+import {connect} from "react-redux";
 
 class CounterGroup extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      counterSum: 0,
+      //counterSum: 0,
       counters: new Array(parseInt(this.props.defaultCount)).fill(0).map(() => {
         return { number: 0, id: new Date().getTime + Math.random() };
       })
@@ -24,7 +25,11 @@ class CounterGroup extends Component {
   };
 
   counterUpdateCallback = changedNum => {
-    this.setState({ counterSum: this.state.counterSum + changedNum });
+    this.props.dispatch({
+      type: "SUM",
+      payload: changedNum
+    })
+    //this.setState({ counterSum: this.state.counterSum + changedNum });
   };
 
   increaseUpdate = (changedNum, id) => {
@@ -70,10 +75,16 @@ class CounterGroup extends Component {
           Regenerate indicated Counters
         </button>
         <br />
-        <span>总和：{this.state.counterSum}</span>
+        <span>总和：{this.props.sum}</span>
       </div>
     );
   }
 }
 
-export default CounterGroup;
+const mapStateToProps = state =>({
+  sum: state.counterSum
+});
+
+connect(mapStateToProps)(CounterGroup)
+
+export default connect(mapStateToProps)(CounterGroup);
