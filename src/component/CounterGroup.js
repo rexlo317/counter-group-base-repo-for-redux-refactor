@@ -24,7 +24,8 @@ class CounterGroup extends Component {
     });
   };
 
-  counterUpdateCallback = changedNum => {
+  counterUpdateCallback = (changedNum) => {
+    console.log("Get into callback")
     this.props.dispatch({
       type: "SUM",
       payload: changedNum
