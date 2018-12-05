@@ -11,6 +11,10 @@ class CounterGroup extends Component {
         return { number: 0, id: new Date().getTime + Math.random() };
       })
     };
+    this.props.dispatch({
+      type: "GENERATE_COUNTERS",
+      payload: this.props.defaultCount
+    });
   }
 
   regenrateCounters = () => {
@@ -58,10 +62,10 @@ class CounterGroup extends Component {
   };
 
   render() {
-    console.log(this.state.counters);
+    console.log(this.props.counters);
     return (
       <div>
-        {this.state.counters.map(counterItem => (
+        {this.props.counters.map(counterItem => (
           <Counter
             key={counterItem.id}
             id={counterItem.id}
@@ -83,7 +87,8 @@ class CounterGroup extends Component {
 }
 
 const mapStateToProps = state =>({
-  sum: state.counterSum
+  sum: state.counterSum,
+  counters: state.counters
 });
 
 connect(mapStateToProps)(CounterGroup)
